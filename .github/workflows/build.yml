@@ -15,7 +15,7 @@ jobs:
         with:
           gradle-version: 8.9
       - run: |
-          unzip -q MikuPet.zip
+          unzip -q MikuPetv2.zip
           cd MikuPet
           gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4

@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -15,10 +17,13 @@ jobs:
         with:
           gradle-version: 8.9
       - run: |
-          unzip -q MikuPetv2.zip
+          Z=$(git log --name-only --format= -- '*.zip' | head -1)
+          echo "Usando $Z"
+          unzip -q -o "$Z"
           cd MikuPet
           gradle assembleDebug --no-daemon
+          mv app/build/outputs/apk/debug/app-debug.apk ../MikuApp.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: MikuPet-apk
-          path: MikuPet/app/build/outputs/apk/debug/*.apk
+          name: MikuApp
+          path: MikuApp.apk
